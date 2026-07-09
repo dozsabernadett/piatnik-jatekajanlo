@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Piatnik Játékajánló</title>
+<style>
+  :root {
+    --red:#C80A0D; --red2:#a20009;
+    --bg:#fef8f8; --white:#fff;
+    --text:#1a1a1a; --muted:#777; --border:#eee;
+    --r:16px; --sh:0 4px 24px rgba(200,10,13,.09);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:var(--bg);min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;
+    padding:16px 12px 32px;color:var(--text);
+  }
+  .wrap{width:100%;max-width:560px;}
+
+  /* HEADER */
+  .hdr{text-align:center;padding:22px 0 16px;}
+  .brand{font-size:11px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:var(--red);}
+  .hdr-sub{font-size:12px;color:#bbb;margin-top:2px;}
+
+  /* DOTS */
+  .dots{display:flex;gap:8px;justify-content:center;margin-bottom:18px;}
+  .dot{width:9px;height:9px;border-radius:50%;background:#e0e0e0;transition:.25s ease;}
+  .dot.done{background:#f5bfbf;}
+  .dot.active{background:var(--red);transform:scale(1.45);}
+
+  /* CARD */
+  .card{background:var(--white);border-radius:var(--r);box-shadow:var(--sh);padding:28px 24px;animation:fu .3s ease;}
+  @keyframes fu{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+  /* START */
+  .s-emoji{font-size:52px;display:block;text-align:center;margin-bottom:14px;}
+  .s-title{font-size:24px;font-weight:800;text-align:center;line-height:1.25;margin-bottom:10px;}
+  .s-desc{font-size:14px;color:var(--muted);text-align:center;line-height:1.7;margin-bottom:24px;}
+  .btn-go{
+    display:block;width:100%;background:var(--red);color:white;border:none;
+    border-radius:12px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;transition:.2s;
+  }
+  .btn-go:hover{background:var(--red2);transform:translateY(-2px);}
+  .s-note{text-align:center;font-size:12px;color:#ccc;margin-top:10px;}
+
+  /* QUESTION */
+  .q-emoji{font-size:38px;display:block;text-align:center;margin-bottom:10px;}
+  .q-text{font-size:20px;font-weight:800;text-align:center;line-height:1.3;margin-bottom:22px;}
+  .opts{display:flex;flex-direction:column;gap:10px;}
+  .opt{
+    background:var(--white);border:2px solid var(--border);border-radius:11px;
+    padding:13px 16px;text-align:left;font-size:14px;font-weight:500;
+    color:var(--text);cursor:pointer;transition:.2s;width:100%;line-height:1.4;
+  }
+  .opt:hover{border-color:var(--red);background:#fff5f5;}
+  .opt.sel{background:var(--red);border-color:var(--red);color:white;}
+  .q-foot{text-align:center;font-size:12px;color:#ccc;margin-top:14px;}
+
+  /* RESULTS */
+  .r-tag{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
+  .r-title{font-size:20px;font-weight:800;line-height:1.3;margin-bottom:6px;}
+  .r-sub{font-size:13px;color:var(--muted);margin-bottom:22px;line-height:1.5;}
+  .gg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+  @media(max-width:420px){.gg{grid-template-columns:1fr;}}
+  .gc{border:2px solid var(--border);border-radius:13px;padding:16px;position:relative;}
+  .gc.p1{border-color:var(--red);padding-top:26px;}
+  .badge{
+    position:absolute;top:-11px;left:50%;transform:translateX(-50%);
+    background:var(--red);color:white;font-size:9px;font-weight:800;
+    letter-spacing:.5px;text-transform:uppercase;padding:3px 10px;
+    border-radius:20px;white-space:nowrap;
+  }
+  .ge{font-size:32px;display:block;margin-bottom:8px;}
+  .gn{font-size:15px;font-weight:800;margin-bottom:3px;}
+  .gt{font-size:11px;color:var(--red);font-weight:600;margin-bottom:7px;}
+  .gd{font-size:11px;color:var(--muted);line-height:1.5;margin-bottom:10px;}
+  .gm{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
+  .chip{background:#f5f5f5;border-radius:20px;padding:2px 8px;font-size:10px;color:#888;}
+  .gl{
+    display:block;text-align:center;text-decoration:none;
+    border-radius:8px;padding:8px 10px;font-size:11px;font-weight:700;transition:.2s;
+  }
+  .gl.pa{background:var(--red);color:white;}
+  .gl.pa:hover{background:var(--red2);}
+  .gl.sa{border:2px solid var(--border);color:var(--text);}
+  .gl.sa:hover{border-color:var(--red);color:var(--red);}
+  .btn-again{
+    background:transparent;border:2px solid var(--border);border-radius:10px;
+    padding:10px 22px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s;
+  }
+  .btn-again:hover{border-color:var(--red);color:var(--red);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="brand">Piatnik Budapest</div>
+    <div class="hdr-sub">Játékajánló kvíz</div>
+  </div>
+  <div id="app"></div>
+</div>
+
+<script>
+const G = {
+  memoett:         {name:'Memoett',                 e:'🧩',tag:'A tökéletes első memóriajáték',          desc:'Klasszikus párkereső 3D figurákkal – az óvodáskorú gyerekek imádni fogják. Fejleszti a memóriát, miközben mindenki szórakozik.',           age:'4+', p:'2–4 fő', t:'20 perc', url:'https://www.piatnik.hu/search?q=memoett'},
+  jungolino:       {name:'Jungolino',               e:'🦁',tag:'Ügyesség, sebesség, dzsungel',            desc:'Ejtsd le az állatokat a fáról, mielőtt valaki más megteszi! Mozgalmas, hangos és fergeteges.',                                           age:'4+', p:'2–5 fő', t:'15 perc', url:'https://www.piatnik.hu/search?q=jungolino'},
+  colorChaos:      {name:'Color Chaos',             e:'🌈',tag:'Villámgyors – de minden megtéveszt',      desc:'A kártyát nézed, de a keretét kell mondani – közben semmi sem az, aminek látszik. Garantált nevetés és fejfájás.',                         age:'5+', p:'2–4 fő', t:'10 perc', url:'https://www.piatnik.hu/search?q=color+chaos'},
+  halliGalli:      {name:'Halli Galli',             e:'🔔',tag:'Csengesd le a többieket!',                desc:'Ha pontosan 5 egyforma gyümölcs van az asztalon, csengess elsőnek! Percek alatt megtanulható, mégis megőrjíti az egész asztalt.',         age:'6+', p:'2–6 fő', t:'15 perc', url:'https://www.piatnik.hu/search?q=halli+galli'},
+  frogSplash:      {name:'Frog Splash',             e:'🐸',tag:'Lődd be a békát a tóba!',                 desc:'Ügyességi verseny, ahol ki kell találni a legjobb szöget és erőt. Egyszerű, addiktív és hangos.',                                        age:'5+', p:'2–6 fő', t:'20 perc', url:'https://www.piatnik.hu/search?q=frog+splash'},
+  block5:          {name:'Block 5',                 e:'🟥',tag:'Rakj ki öt négyzetet egymás után!',       desc:'Logikai területfoglaló – könnyű megtanulni, nehéz abbahagyni. Kiváló bevezetés a taktikai gondolkodásba.',                              age:'6+', p:'2–6 fő', t:'15 perc', url:'https://www.piatnik.hu/search?q=block+5'},
+  tickTackJunior:  {name:'Tick Tack Bumm Junior',   e:'💣',tag:'Ketyeg a bomba – szavak gyorsan!',        desc:'Gyerekbarát témák, ketyegő bomba, rengeteg nevetés. Mondj szót a témára, mielőtt robban!',                                              age:'5+', p:'2–12 fő',t:'20 perc', url:'https://www.piatnik.hu/search?q=tick+tack+bumm+junior'},
+  activityJunior:  {name:'Activity Junior',         e:'🎨',tag:'Rajzolj, mutogass, magyarázz!',           desc:'Az Activity gyerekverziója – könnyebb szavak, de ugyanolyan hangos és kreatív. Tökéletes 8 éves kortól.',                                 age:'8+', p:'4–12 fő',t:'40 perc', url:'https://www.piatnik.hu/search?q=activity+junior'},
+  activityFamily:  {name:'Activity Family',         e:'🎭',tag:'A klasszikus – minden korosztálynak',     desc:'Mutogatás, rajzolás, magyarázat vegyes korosztályú csapatoknak. Nagymamától unokáig mindenki játszhat.',                                  age:'10+',p:'4–12 fő',t:'45 perc', url:'https://www.piatnik.hu/search?q=activity+family'},
+  activityOriginal:{name:'Activity Original',       e:'🎪',tag:'Az eredeti, a legendás',                  desc:'Az Activity felnőtteknek – erőteljesebb témák, hangosabb viták, emlékezetes esték. Egy társasjátékos örökzöld.',                           age:'16+',p:'3+ fő',  t:'45 perc', url:'https://www.piatnik.hu/search?q=activity+original'},
+  tickTackVibralas:{name:'Tick Tack Bumm Vibrálás', e:'💥',tag:'Most rezeg – de mikor robban?',           desc:'A ketyegős bomba most vibrál, és senki sem tudja, mikor robban. Szójáték maximális feszültséggel.',                                       age:'8+', p:'2–12 fő',t:'30 perc', url:'https://www.piatnik.hu/search?q=tick+tack+bumm+viralas'},
+  carcassonne:     {name:'Carcassonne',             e:'🏰',tag:'Rakd le a csempét, nyerd a területet!',  desc:'Egy csempe, egy döntés – de ezek összeadódnak. Könnyen tanulható, mégis mélyen stratégiai.',                                            age:'7+', p:'2–5 fő', t:'35 perc', url:'https://www.piatnik.hu/search?q=carcassonne'},
+  luxor:           {name:'Luxor',                   e:'🏺',tag:'Egyiptomi kincsek, taktikai lépések',     desc:'Vezd az expedíciós csapatodat a piramis mélyére, és gyűjtsd össze a legtöbb kincset! Gyönyörű dizájn, remek taktika.',                    age:'8+', p:'2–4 fő', t:'45 perc', url:'https://www.piatnik.hu/search?q=luxor'},
+  century:         {name:'Century – Fűszerút',      e:'🌶',tag:'Kereskedj fűszerekkel, pont a tied!',    desc:'Gyűjtsd és csereberélj a fűszereket, hogy teljesítsd a megrendeléseket. Egyszerű alapok, mélyen taktikus.',                              age:'8+', p:'2–5 fő', t:'45 perc', url:'https://www.piatnik.hu/search?q=century+fuszerut'},
+  catan:           {name:'Catan',                   e:'🏗',tag:'Építs, kereskedj, hódítsd meg a szigetet!',desc:'A stratégiai játékok örökzöldje. Gyűjts nyersanyagokat, építs városokat – és ne hagyd, hogy a szomszédod megelőzzön.',             age:'10+',p:'3–4 fő', t:'75 perc', url:'https://www.piatnik.hu/search?q=catan'},
+  stoneAge:        {name:'Stone Age',               e:'🗿',tag:'Éld túl a kőkort okosan!',                desc:'Vadászz, gyűjts nyersanyagot, szaporodj – és épüljenek a falvaid. Klasszikus munkáselhelyezős stratégia.',                               age:'10+',p:'2–4 fő', t:'60 perc', url:'https://www.piatnik.hu/search?q=stone+age'},
+  theCrew:         {name:'The Crew',                e:'🚀',tag:'Kooperatív kártyás kaland',               desc:'Együtt kell teljesíteni a küldetést – de kommunikálni alig lehet. Rövid, de annál intenzívebb.',                                        age:'10+',p:'3–5 fő', t:'20 perc', url:'https://www.piatnik.hu/search?q=the+crew'},
+  bohnanza:        {name:'Bohnanza',                e:'🌱',tag:'Babgazda lettél – most alkudozz!',        desc:'Ültess és arasd le a babokat, kereskedj okosan. Könnyű tanulni, nehéz abbahagyni.',                                                      age:'10+',p:'2–7 fő', t:'45 perc', url:'https://www.piatnik.hu/search?q=bohnanza'},
+  soulmates:       {name:'Soulmates',               e:'💬',tag:'Mennyire ismered igazán?',                desc:'Kérdések, vélemények, meglepetések – kiderül, ki ismeri valójában a másikat. Kiváló esti program barátok között.',                       age:'10+',p:'2–5 fő', t:'30 perc', url:'https://www.piatnik.hu/search?q=soulmates'},
+  rummikub:        {name:'Rummikub',                e:'🔢',tag:'Szám, szín, sorozat – te döntesz!',       desc:'A klasszikus csempés számjáték, amit megszeretnek a nagyszülők és az unokák egyaránt.',                                                  age:'7+', p:'2–4 fő', t:'60 perc', url:'https://www.piatnik.hu/search?q=rummikub'}
+};
+
+const Qs = {
+  q1:  {text:'Kivel fogsz játszani?',           e:'🎲', opts:[{l:'🧒 A gyerekemmel',v:'gyerek'},{l:'👨‍👩‍👧 Az egész családdal',v:'csald'},{l:'🍻 Barátokkal',v:'barat'}]},
+  q2:  {text:'Mekkora a csapat?',               e:'👥', opts:[{l:'Kettesben vagy hármasban',v:'kis'},{l:'4–6 fő',v:'kozepes'},{l:'6 fő felett',v:'nagy'}]},
+  q3:  {text:'Mennyi idő áll rendelkezésre?',   e:'⏱️', opts:[{l:'Gyors meccs – 15–20 perc',v:'rovid'},{l:'Közepes – 30–45 perc',v:'kozepes'},{l:'Ráérünk – egy óra vagy több',v:'hosszu'}]},
+  q4a: {text:'Hány éves a kis játékos?',         e:'🎂', opts:[{l:'4–6 éves',v:'4-6'},{l:'7–9 éves',v:'7-9'},{l:'10 éves fölött',v:'10plus'}]},
+  q4b: {text:'Mi a hangulat?',                  e:'🎭', opts:[{l:'Hangos és kaotikus – minél több a nevetés, annál jobb',v:'hangos'},{l:'Kicsit taktikázós, de ne kelljen túl sokat gondolkodni',v:'kozepes'},{l:'Jöhet minden, ami stratégia és taktika',v:'strategia'}]},
+  q5:  {text:'Mi a legfontosabb egy játékban?', e:'⭐', opts:[{l:'⚡ Gyors reakció, ügyesség, akció',v:'reakcio'},{l:'🧠 Gondolkodás, logika, taktika',v:'logika'},{l:'🤝 Kommunikáció, kreativitás, csapatmunka',v:'kommunikacio'}]}
+};
+
+function getResult(a) {
+  const {q1,q2,q3,q4,q5} = a;
+  if (q1==='gyerek') {
+    if (q4==='4-6') {
+      if (q5==='reakcio')   return ['jungolino','colorChaos'];
+      if (q5==='logika')    return ['memoett','block5'];
+      return                       ['tickTackJunior','memoett'];
+    }
+    if (q4==='7-9') {
+      if (q5==='reakcio')   return ['halliGalli','frogSplash'];
+      if (q5==='logika')    return ['block5','carcassonne'];
+      return                       ['activityJunior','tickTackJunior'];
+    }
+    // 10+
+    if (q5==='reakcio')     return ['halliGalli','tickTackVibralas'];
+    if (q5==='logika')      return ['carcassonne','luxor'];
+    return                         ['activityJunior','theCrew'];
+  }
+  if (q1==='csald') {
+    if (q4==='hangos') {
+      if (q2==='nagy')      return ['tickTackVibralas','activityFamily'];
+      return                       ['activityFamily','halliGalli'];
+    }
+    if (q4==='kozepes') {
+      if (q3==='rovid')     return ['halliGalli','carcassonne'];
+      if (q3==='hosszu')    return ['rummikub','carcassonne'];
+      return                       ['carcassonne','luxor'];
+    }
+    if (q4==='strategia') {
+      if (q3==='rovid')     return ['theCrew','carcassonne'];
+      if (q3==='hosszu')    return ['catan','stoneAge'];
+      return                       ['luxor','century'];
+    }
+  }
+  if (q1==='barat') {
+    if (q4==='hangos') {
+      if (q2==='nagy')      return ['tickTackVibralas','activityFamily'];
+      return                       ['activityOriginal','soulmates'];
+    }
+    if (q4==='kozepes') {
+      if (q3==='rovid')     return ['theCrew','bohnanza'];
+      if (q3==='hosszu')    return ['catan','century'];
+      return                       ['century','luxor'];
+    }
+    if (q4==='strategia') {
+      if (q3==='rovid')     return ['theCrew','bohnanza'];
+      if (q3==='hosszu')    return ['catan','stoneAge'];
+      return                       ['century','luxor'];
+    }
+  }
+  return ['activityFamily','carcassonne'];
+}
+
+let screen='start', step=0, ans={}, seq=[];
+
+function buildSeq() {
+  return ['q1','q2','q3', ans.q1==='gyerek'?'q4a':'q4b', 'q5'];
+}
+
+const app = document.getElementById('app');
+
+function render() {
+  app.innerHTML =
+    screen==='start'  ? renderStart() :
+    screen==='quiz'   ? renderQuiz()  :
+                        renderResults();
+}
+
+function renderStart() {
+  return `<div class="card">
+    <span class="s-emoji">🎲</span>
+    <h1 class="s-title">Melyik társasjáték illik hozzád?</h1>
+    <p class="s-desc">5 gyors kérdés, és megtaláljuk a tökéletes játékot – legyen szó a gyereknek, a családnak vagy egy jó buli éjszakájának.</p>
+    <button class="btn-go" onclick="startQuiz()">Kezdjük el! →</button>
+    <p class="s-note">5 kérdés · ~1 perc</p>
+  </div>`;
+}
+
+function renderQuiz() {
+  const q = Qs[seq[step]];
+  const dots = [0,1,2,3,4].map(i =>
+    `<div class="dot ${i<step?'done':i===step?'active':''}"></div>`
+  ).join('');
+  const opts = q.opts.map(o =>
+    `<button class="opt" data-v="${o.v}" onclick="pick('${o.v}')">${o.l}</button>`
+  ).join('');
+  return `
+    <div class="dots">${dots}</div>
+    <div class="card">
+      <span class="q-emoji">${q.e}</span>
+      <div class="q-text">${q.text}</div>
+      <div class="opts">${opts}</div>
+    </div>
+    <p class="q-foot">${step+1} / 5</p>`;
+}
+
+function renderResults() {
+  const [pk,sk] = getResult(ans);
+  const pg=G[pk], sg=G[sk];
+  return `<div class="card">
+    <div class="r-tag">🎉 Megvan a tökéletes játék!</div>
+    <h2 class="r-title">Ezeket ajánljuk neked:</h2>
+    <p class="r-sub">A legjobb találat elöl van – de mindkettő megér egy próbát!</p>
+    <div class="gg">
+      ${gc(pg,true)}
+      ${gc(sg,false)}
+    </div>
+    <button class="btn-again" onclick="restart()">↺ Újrakezdem</button>
+  </div>`;
+}
+
+function gc(g, primary) {
+  return `<div class="gc ${primary?'p1':''}">
+    ${primary?'<span class="badge">⭐ Legjobb találat</span>':''}
+    <span class="ge">${g.e}</span>
+    <div class="gn">${g.name}</div>
+    <div class="gt">${g.tag}</div>
+    <div class="gd">${g.desc}</div>
+    <div class="gm">
+      <span class="chip">🎂 ${g.age}</span>
+      <span class="chip">👥 ${g.p}</span>
+      <span class="chip">⏱ ${g.t}</span>
+    </div>
+    <a href="${g.url}" target="_blank" rel="noopener" class="gl ${primary?'pa':'sa'}">
+      Megnézem a Piatniknál →
+    </a>
+  </div>`;
+}
+
+function startQuiz() {
+  screen='quiz'; step=0; ans={}; seq=['q1','q2','q3','_','q5'];
+  render();
+}
+
+function pick(val) {
+  const qk = seq[step];
+  const ak = (qk==='q4a'||qk==='q4b') ? 'q4' : qk;
+  ans[ak] = val;
+  if (qk==='q1') seq = buildSeq();
+  document.querySelectorAll('.opt').forEach(b => {
+    if (b.getAttribute('data-v')===val) b.classList.add('sel');
+  });
+  setTimeout(() => {
+    step++;
+    if (step>=5) screen='results';
+    render();
+  }, 280);
+}
+
+function restart() {
+  screen='start'; step=0; ans={}; seq=[];
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
