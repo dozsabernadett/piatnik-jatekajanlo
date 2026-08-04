@@ -105,87 +105,102 @@
 
 <script>
 const G = {
-  memoett:         {name:'Memoett',                 e:'🧩',tag:'A tökéletes első memóriajáték',          desc:'Klasszikus párkereső 3D figurákkal – az óvodáskorú gyerekek imádni fogják. Fejleszti a memóriát, miközben mindenki szórakozik.',           age:'4+', p:'2–4 fő', t:'20 perc', url:'https://www.piatnik.hu/search?q=memoett'},
-  jungolino:       {name:'Jungolino',               e:'🦁',tag:'Ügyesség, sebesség, dzsungel',            desc:'Ejtsd le az állatokat a fáról, mielőtt valaki más megteszi! Mozgalmas, hangos és fergeteges.',                                           age:'4+', p:'2–5 fő', t:'15 perc', url:'https://www.piatnik.hu/search?q=jungolino'},
-  colorChaos:      {name:'Color Chaos',             e:'🌈',tag:'Villámgyors – de minden megtéveszt',      desc:'A kártyát nézed, de a keretét kell mondani – közben semmi sem az, aminek látszik. Garantált nevetés és fejfájás.',                         age:'5+', p:'2–4 fő', t:'10 perc', url:'https://www.piatnik.hu/search?q=color+chaos'},
-  halliGalli:      {name:'Halli Galli',             e:'🔔',tag:'Csengesd le a többieket!',                desc:'Ha pontosan 5 egyforma gyümölcs van az asztalon, csengess elsőnek! Percek alatt megtanulható, mégis megőrjíti az egész asztalt.',         age:'6+', p:'2–6 fő', t:'15 perc', url:'https://www.piatnik.hu/search?q=halli+galli'},
-  frogSplash:      {name:'Frog Splash',             e:'🐸',tag:'Lődd be a békát a tóba!',                 desc:'Ügyességi verseny, ahol ki kell találni a legjobb szöget és erőt. Egyszerű, addiktív és hangos.',                                        age:'5+', p:'2–6 fő', t:'20 perc', url:'https://www.piatnik.hu/search?q=frog+splash'},
-  block5:          {name:'Block 5',                 e:'🟥',tag:'Rakj ki öt négyzetet egymás után!',       desc:'Logikai területfoglaló – könnyű megtanulni, nehéz abbahagyni. Kiváló bevezetés a taktikai gondolkodásba.',                              age:'6+', p:'2–6 fő', t:'15 perc', url:'https://www.piatnik.hu/search?q=block+5'},
-  tickTackJunior:  {name:'Tick Tack Bumm Junior',   e:'💣',tag:'Ketyeg a bomba – szavak gyorsan!',        desc:'Gyerekbarát témák, ketyegő bomba, rengeteg nevetés. Mondj szót a témára, mielőtt robban!',                                              age:'5+', p:'2–12 fő',t:'20 perc', url:'https://www.piatnik.hu/search?q=tick+tack+bumm+junior'},
-  activityJunior:  {name:'Activity Junior',         e:'🎨',tag:'Rajzolj, mutogass, magyarázz!',           desc:'Az Activity gyerekverziója – könnyebb szavak, de ugyanolyan hangos és kreatív. Tökéletes 8 éves kortól.',                                 age:'8+', p:'4–12 fő',t:'40 perc', url:'https://www.piatnik.hu/search?q=activity+junior'},
-  activityFamily:  {name:'Activity Family',         e:'🎭',tag:'A klasszikus – minden korosztálynak',     desc:'Mutogatás, rajzolás, magyarázat vegyes korosztályú csapatoknak. Nagymamától unokáig mindenki játszhat.',                                  age:'10+',p:'4–12 fő',t:'45 perc', url:'https://www.piatnik.hu/search?q=activity+family'},
-  activityOriginal:{name:'Activity Original',       e:'🎪',tag:'Az eredeti, a legendás',                  desc:'Az Activity felnőtteknek – erőteljesebb témák, hangosabb viták, emlékezetes esték. Egy társasjátékos örökzöld.',                           age:'16+',p:'3+ fő',  t:'45 perc', url:'https://www.piatnik.hu/search?q=activity+original'},
-  tickTackVibralas:{name:'Tick Tack Bumm Vibrálás', e:'💥',tag:'Most rezeg – de mikor robban?',           desc:'A ketyegős bomba most vibrál, és senki sem tudja, mikor robban. Szójáték maximális feszültséggel.',                                       age:'8+', p:'2–12 fő',t:'30 perc', url:'https://www.piatnik.hu/search?q=tick+tack+bumm+viralas'},
-  carcassonne:     {name:'Carcassonne',             e:'🏰',tag:'Rakd le a csempét, nyerd a területet!',  desc:'Egy csempe, egy döntés – de ezek összeadódnak. Könnyen tanulható, mégis mélyen stratégiai.',                                            age:'7+', p:'2–5 fő', t:'35 perc', url:'https://www.piatnik.hu/search?q=carcassonne'},
-  luxor:           {name:'Luxor',                   e:'🏺',tag:'Egyiptomi kincsek, taktikai lépések',     desc:'Vezd az expedíciós csapatodat a piramis mélyére, és gyűjtsd össze a legtöbb kincset! Gyönyörű dizájn, remek taktika.',                    age:'8+', p:'2–4 fő', t:'45 perc', url:'https://www.piatnik.hu/search?q=luxor'},
-  century:         {name:'Century – Fűszerút',      e:'🌶',tag:'Kereskedj fűszerekkel, pont a tied!',    desc:'Gyűjtsd és csereberélj a fűszereket, hogy teljesítsd a megrendeléseket. Egyszerű alapok, mélyen taktikus.',                              age:'8+', p:'2–5 fő', t:'45 perc', url:'https://www.piatnik.hu/search?q=century+fuszerut'},
-  catan:           {name:'Catan',                   e:'🏗',tag:'Építs, kereskedj, hódítsd meg a szigetet!',desc:'A stratégiai játékok örökzöldje. Gyűjts nyersanyagokat, építs városokat – és ne hagyd, hogy a szomszédod megelőzzön.',             age:'10+',p:'3–4 fő', t:'75 perc', url:'https://www.piatnik.hu/search?q=catan'},
-  stoneAge:        {name:'Stone Age',               e:'🗿',tag:'Éld túl a kőkort okosan!',                desc:'Vadászz, gyűjts nyersanyagot, szaporodj – és épüljenek a falvaid. Klasszikus munkáselhelyezős stratégia.',                               age:'10+',p:'2–4 fő', t:'60 perc', url:'https://www.piatnik.hu/search?q=stone+age'},
-  theCrew:         {name:'The Crew',                e:'🚀',tag:'Kooperatív kártyás kaland',               desc:'Együtt kell teljesíteni a küldetést – de kommunikálni alig lehet. Rövid, de annál intenzívebb.',                                        age:'10+',p:'3–5 fő', t:'20 perc', url:'https://www.piatnik.hu/search?q=the+crew'},
-  bohnanza:        {name:'Bohnanza',                e:'🌱',tag:'Babgazda lettél – most alkudozz!',        desc:'Ültess és arasd le a babokat, kereskedj okosan. Könnyű tanulni, nehéz abbahagyni.',                                                      age:'10+',p:'2–7 fő', t:'45 perc', url:'https://www.piatnik.hu/search?q=bohnanza'},
-  soulmates:       {name:'Soulmates',               e:'💬',tag:'Mennyire ismered igazán?',                desc:'Kérdések, vélemények, meglepetések – kiderül, ki ismeri valójában a másikat. Kiváló esti program barátok között.',                       age:'10+',p:'2–5 fő', t:'30 perc', url:'https://www.piatnik.hu/search?q=soulmates'},
-  rummikub:        {name:'Rummikub',                e:'🔢',tag:'Szám, szín, sorozat – te döntesz!',       desc:'A klasszikus csempés számjáték, amit megszeretnek a nagyszülők és az unokák egyaránt.',                                                  age:'7+', p:'2–4 fő', t:'60 perc', url:'https://www.piatnik.hu/search?q=rummikub'}
+  memoett: {name:'Memoett', e:'🦎', tag:'Négyes memo – állatcsaládok', desc:'Nem csak két lapkát kell megtalálnod, hanem négyet, ráadásul 1-től 4-ig sorrendben. Így lesz teljes az állatcsalád.', age:'4+', p:'2–4 fő', t:'20 perc', url:'https://www.piatnik.hu/spd/674990/Memoett'},
+  krokoLoko: {name:'Kroko Loko', e:'🐊', tag:'Vidám óvodás játék', desc:'Egyszerű, színes, óvodásoknak tökéletes első társasjáték.', age:'4+', p:'2–4 fő', t:'15 perc', url:'https://www.piatnik.hu/spd/673696/Kroko-Loko'},
+  frogSplash: {name:'Frog Splash', e:'🐸', tag:'Csenj szúnyogot a béka elől!', desc:'Vidám akciójáték. Ki tud a legtöbb szúnyogot elcsenni a béka elől úgy, hogy az le ne fröcskölje vízsugárral?', age:'4+', p:'2–6 fő', t:'10 perc', url:'https://www.piatnik.hu/spd/811494/Frog-Splash'},
+  colorChaos: {name:'Color Chaos', e:'🌈', tag:'Minden megtéveszt!', desc:'A kártyát nézed, de a keret színét kell mondani – közben semmi sem az, aminek látszik. Garantált nevetés.', age:'5+', p:'2–4 fő', t:'10 perc', url:'https://www.piatnik.hu/spd/673993/Color-Chaos'},
+  superSnails: {name:'Super Snails', e:'🐌', tag:'Csigafutam – tippelős kockás', desc:'Elsőként csússzon át a szupercsigád a célon! Tippeld meg a többiek kockadobásának eredményét, és ne felejtsd el megetetni a csigákat.', age:'6+', p:'2–4 fő', t:'15 perc', url:'https://www.piatnik.hu/spd/675492/Super-Snails'},
+  pickAChicken: {name:'Pick A Chicken', e:'🐔', tag:'Rendezd el a tyúkólat!', desc:'Minden szárnyasnak van saját preferenciája: a tyúkok egymás mellett, a kakas magában, a fiókák párban. Helyezd el őket ügyesen!', age:'6+', p:'2–4 fő', t:'15 perc', url:'https://www.piatnik.hu/spd/675195/Pick-A-Chicken'},
+  halliGalli: {name:'Halli Galli', e:'🔔', tag:'Csengess elsőnek!', desc:'Ha pontosan 5 egyforma gyümölcs van az asztalon, csapj a csengőre! Percek alatt tanulható, mégis megőrjíti az egész asztalt.', age:'6+', p:'2–6 fő', t:'15 perc', url:'https://www.piatnik.hu/spd/738869/Halli-Galli'},
+  pinkuins: {name:'Pinkuins', e:'🐧', tag:'Rózsaszín pingvines memo', desc:'Aranyos, könnyen fogható családi játék kisiskolásoknak.', age:'6+', p:'2–4 fő', t:'30 perc', url:'https://www.piatnik.hu/spd/673092/Pinkuins'},
+  tickTackJunior: {name:'Tick Tack Bumm Junior', e:'💣', tag:'Ketyeg a bomba – szavak gyorsan!', desc:'Gyerekbarát témák, ketyegő bomba, rengeteg nevetés. Mondj egy szót a témára, mielőtt robban!', age:'5+', p:'2–12 fő', t:'30 perc', url:'https://www.piatnik.hu/spd/744969/Tick-Tack-Bumm-Junior'},
+  activityJunior: {name:'Activity Junior', e:'🎨', tag:'Rajzolj, mutogass, magyarázz!', desc:'Az Activity gyerekverziója – könnyebb szavak, de ugyanolyan hangos és kreatív. Tökéletes 8 éves kortól.', age:'8+', p:'4–12 fő', t:'40 perc', url:'https://www.piatnik.hu/spd/744648/Activity-Junior'},
+  carcassonne: {name:'Carcassonne', e:'🏰', tag:'Rakd le a csempét, nyerd a területet!', desc:'Egy csempe, egy döntés – de ezek összeadódnak. Könnyen tanulható családi klasszikus, ami mégis mélyen stratégiai.', age:'7+', p:'2–5 fő', t:'35 perc', url:'https://www.piatnik.hu/spd/791697/Carcassonne'},
+  rummikub: {name:'Rummikub', e:'🔢', tag:'Szám, szín, sorozat', desc:'A klasszikus csempés számjáték, amit megszeret nagyszülő és unoka egyaránt.', age:'7+', p:'2–4 fő', t:'20 perc', url:'https://www.piatnik.hu/spd/687396/Rummikub-Szamos'},
+  activityFamily: {name:'Activity Family Classic', e:'🎭', tag:'Minden korosztálynak', desc:'Mutogatás, rajzolás, magyarázat vegyes korosztályú csapatoknak. Nagymamától unokáig mindenki játszhat.', age:'8+', p:'3–16 fő', t:'60 perc', url:'https://www.piatnik.hu/spd/710773/Activity-Family-Classic'},
+  verflixxt: {name:'Verflixxt! Dodófutam', e:'🦤', tag:'Kockás versenyfutás', desc:'Gyors, izgalmas családi kockajáték – nagyobb csapatnak is remek.', age:'8+', p:'2–6 fő', t:'20 perc', url:'https://www.piatnik.hu/spd/883729/Verflixxt-Dodofutam'},
+  puraVida: {name:'Pura Vida', e:'🦥', tag:'Costa Rica-i vadőrködés', desc:'Vadőrként kiegyensúlyozott állatpopulációt hozol létre nemzeti parkokban. Gyönyörű, kellemes családi játék.', age:'8+', p:'2–4 fő', t:'30 perc', url:'https://www.piatnik.hu/spd/673597/Pura-Vida'},
+  elixirus: {name:'Elixirus', e:'🧪', tag:'Varázsital-versenyen', desc:'Az erdei varázsló versenyén hozzávalókat gyűjtesz és főzeteket készítesz. Vigyázz a többiek trükkjeire – csak a legravaszabb győzhet!', age:'10+', p:'2–5 fő', t:'30 perc', url:'https://www.piatnik.hu/spd/674297/Elixirus'},
+  catan: {name:'Catan', e:'🏗', tag:'A stratégiai örökzöld', desc:'Gyűjts nyersanyagot, építs, kereskedj – és ne hagyd, hogy a szomszédod megelőzzön. A stratégiai játékok kötelező alapdarabja.', age:'10+', p:'3–4 fő', t:'75 perc', url:'https://www.piatnik.hu/spd/794995/Catan-A-jatek'},
+  apeTown: {name:'Ape Town', e:'🐒', tag:'Majomvárosi hatalomátvétel', desc:'Bandák járják a sikátorokat, értékes helyeket keresve. Célzottan használd a pénzkötegeket, szerezd meg a legjobb lapkákat!', age:'10+', p:'2–4 fő', t:'45 perc', url:'https://www.piatnik.hu/spd/783692/Ape-Town'},
+  nomad: {name:'Nomad', e:'🐎', tag:'Sztyeppei nomád stratégia', desc:'Vándorolj csapatoddal a sztyeppén, foglalj területeket, gyűjts erőforrást. Hosszabb, taktikusabb családi darab.', age:'10+', p:'2–4 fő', t:'60 perc', url:'https://www.piatnik.hu/spd/723896/Nomad'},
+  activityOriginal: {name:'Activity Original', e:'🎪', tag:'A legendás, felnőtteknek', desc:'Erőteljesebb témák, hangosabb viták, emlékezetes esték. A társasjátékos örökzöld.', age:'12+', p:'3–16 fő', t:'60 perc', url:'https://www.piatnik.hu/spd/737329/Activity-Original'},
+  activityKaosz: {name:'Activity Káosz', e:'🌀', tag:'Egy csapatban a káoszban', desc:'Az Activity családhoz tartozó pörgős parti-változat, ahol az egész társaság egy csapatként küzd.', age:'12+', p:'4–12 fő', t:'45 perc', url:'https://www.piatnik.hu/spd/791420/Activity-Kaosz'},
+  tickTackBummOriginal: {name:'Tick Tack Bumm Original', e:'💥', tag:'A klasszikus szójáték-bomba', desc:'Ketyeg a bomba, mondj gyorsan egy szót, mielőtt robban! A parti-klasszikus.', age:'12+', p:'2–12 fő', t:'20 perc', url:'https://www.piatnik.hu/spd/742262/Tick-Tack-Bumm'},
+  tickTackBummSzoorveny: {name:'Tick Tack Bumm Szóörvény', e:'🌪', tag:'Szavak örvényében', desc:'A Tick Tack Bumm család gyors, kompakt tagja – rövid parti, sok nevetés.', age:'12+', p:'2–6 fő', t:'20 perc', url:'https://www.piatnik.hu/spd/701863/Tick-Tack-Bumm-Szoorveny'},
+  quickStopOriginal: {name:'Quick Stop', e:'⚡', tag:'Villámgyors szójáték', desc:'Nincs idő várakozásra: a témának és a betűnek megfelelő szavakat kell bemondanod, mielőtt lerakod. Aki elsőként letett, nyer.', age:'10+', p:'2–7 fő', t:'15 perc', url:'https://www.piatnik.hu/spd/727498/Quick-Stop'},
+  theCrew: {name:'The Crew Family', e:'🚀', tag:'Kooperatív ütésbecslés', desc:'Egy legénység tagjaiként küldetéseket teljesítetek. Kommunikálni alig lehet – közösen kell megoldani a feladatokat.', age:'8+', p:'3–5 fő', t:'15 perc', url:'https://www.piatnik.hu/spd/808500/The-Crew-Family'},
+  theGang: {name:'The Gang', e:'💰', tag:'Kooperatív Texas Hold\'em', desc:'A The Gang tagjaiként 3 széfet raboltok ki. Nem beszélhettek, csak zsetonokkal jelezhettek – kooperatív póker.', age:'10+', p:'3–6 fő', t:'20 perc', url:'https://www.piatnik.hu/spd/808999/The-Gang'}
 };
 
 const Qs = {
   q1:  {text:'Kivel fogsz játszani?',           e:'🎲', opts:[{l:'🧒 A gyerekemmel',v:'gyerek'},{l:'👨‍👩‍👧 Az egész családdal',v:'csald'},{l:'🍻 Barátokkal',v:'barat'}]},
-  q2:  {text:'Mekkora a csapat?',               e:'👥', opts:[{l:'Kettesben vagy hármasban',v:'kis'},{l:'4–6 fő',v:'kozepes'},{l:'6 fő felett',v:'nagy'}]},
-  q3:  {text:'Mennyi idő áll rendelkezésre?',   e:'⏱️', opts:[{l:'Gyors meccs – 15–20 perc',v:'rovid'},{l:'Közepes – 30–45 perc',v:'kozepes'},{l:'Ráérünk – egy óra vagy több',v:'hosszu'}]},
+  q2:  {text:'Mekkora a csapat?',               e:'👥', opts:[{l:'2 játékos',v:'kis'},{l:'3–4 játékos',v:'kozepes'},{l:'5–6 játékos',v:'nagy'}]},
+  q3:  {text:'Mennyi idő áll rendelkezésre?',   e:'⏱️', opts:[{l:'Gyors parti – 15–20 perc',v:'rovid'},{l:'Közepes – 30–45 perc',v:'kozepes'},{l:'Ráérünk – egy óra vagy több',v:'hosszu'}]},
   q4a: {text:'Hány éves a kis játékos?',         e:'🎂', opts:[{l:'4–6 éves',v:'4-6'},{l:'7–9 éves',v:'7-9'},{l:'10 éves fölött',v:'10plus'}]},
   q4b: {text:'Mi a hangulat?',                  e:'🎭', opts:[{l:'Hangos és kaotikus – minél több a nevetés, annál jobb',v:'hangos'},{l:'Kicsit taktikázós, de ne kelljen túl sokat gondolkodni',v:'kozepes'},{l:'Jöhet minden, ami stratégia és taktika',v:'strategia'}]},
-  q5:  {text:'Mi a legfontosabb egy játékban?', e:'⭐', opts:[{l:'⚡ Gyors reakció, ügyesség, akció',v:'reakcio'},{l:'🧠 Gondolkodás, logika, taktika',v:'logika'},{l:'🤝 Kommunikáció, kreativitás, csapatmunka',v:'kommunikacio'}]}
+  q5:  {text:'Mennyire legyen összetett?',       e:'🎯', opts:[{l:'🚀 Gyorsan megtanulható',v:'gyors'},{l:'⚖️ Közepes nehézségű',v:'kozepes'},{l:'🧩 Összetett játék',v:'osszetett'}]}
 };
 
 function getResult(a) {
   const {q1,q2,q3,q4,q5} = a;
+
+  // GYEREKEKKEL
   if (q1==='gyerek') {
     if (q4==='4-6') {
-      if (q5==='reakcio')   return ['jungolino','colorChaos'];
-      if (q5==='logika')    return ['memoett','block5'];
-      return                       ['tickTackJunior','memoett'];
+      if (q5==='gyors')     return ['frogSplash','krokoLoko'];
+      if (q5==='kozepes')   return ['memoett','tickTackJunior'];
+      return                       ['memoett','pickAChicken'];
     }
     if (q4==='7-9') {
-      if (q5==='reakcio')   return ['halliGalli','frogSplash'];
-      if (q5==='logika')    return ['block5','carcassonne'];
-      return                       ['activityJunior','tickTackJunior'];
+      if (q5==='gyors')     return ['halliGalli','frogSplash'];
+      if (q5==='kozepes')   return ['tickTackJunior','pinkuins'];
+      return                       ['carcassonne','pickAChicken'];
     }
     // 10+
-    if (q5==='reakcio')     return ['halliGalli','tickTackVibralas'];
-    if (q5==='logika')      return ['carcassonne','luxor'];
-    return                         ['activityJunior','theCrew'];
+    if (q5==='gyors')       return ['halliGalli','colorChaos'];
+    if (q5==='kozepes')     return ['activityJunior','superSnails'];
+    return                         ['carcassonne','rummikub'];
   }
+
+  // CSALÁDDAL
   if (q1==='csald') {
     if (q4==='hangos') {
-      if (q2==='nagy')      return ['tickTackVibralas','activityFamily'];
-      return                       ['activityFamily','halliGalli'];
+      if (q5==='gyors')     return ['halliGalli','frogSplash'];
+      if (q5==='kozepes')   return ['activityFamily','tickTackBummSzoorveny'];
+      return                       ['activityFamily','carcassonne'];
     }
     if (q4==='kozepes') {
-      if (q3==='rovid')     return ['halliGalli','carcassonne'];
-      if (q3==='hosszu')    return ['rummikub','carcassonne'];
-      return                       ['carcassonne','luxor'];
+      if (q5==='gyors')     return ['verflixxt','halliGalli'];
+      if (q5==='kozepes')   return ['carcassonne','rummikub'];
+      return                       ['puraVida','carcassonne'];
     }
     if (q4==='strategia') {
-      if (q3==='rovid')     return ['theCrew','carcassonne'];
-      if (q3==='hosszu')    return ['catan','stoneAge'];
-      return                       ['luxor','century'];
+      if (q5==='gyors')     return ['theCrew','verflixxt'];
+      if (q5==='kozepes')   return ['carcassonne','elixirus'];
+      return                       ['catan','apeTown'];
     }
   }
+
+  // BARÁTOKKAL
   if (q1==='barat') {
     if (q4==='hangos') {
-      if (q2==='nagy')      return ['tickTackVibralas','activityFamily'];
-      return                       ['activityOriginal','soulmates'];
+      if (q5==='gyors')     return ['halliGalli','tickTackBummSzoorveny'];
+      if (q5==='kozepes')   return ['activityOriginal','tickTackBummOriginal'];
+      return                       ['activityOriginal','activityKaosz'];
     }
     if (q4==='kozepes') {
-      if (q3==='rovid')     return ['theCrew','bohnanza'];
-      if (q3==='hosszu')    return ['catan','century'];
-      return                       ['century','luxor'];
+      if (q5==='gyors')     return ['quickStopOriginal','tickTackBummSzoorveny'];
+      if (q5==='kozepes')   return ['activityKaosz','quickStopOriginal'];
+      return                       ['theCrew','theGang'];
     }
     if (q4==='strategia') {
-      if (q3==='rovid')     return ['theCrew','bohnanza'];
-      if (q3==='hosszu')    return ['catan','stoneAge'];
-      return                       ['century','luxor'];
+      if (q5==='gyors')     return ['theCrew','theGang'];
+      if (q5==='kozepes')   return ['elixirus','apeTown'];
+      return                       ['catan','nomad'];
     }
   }
+
   return ['activityFamily','carcassonne'];
 }
 
@@ -238,7 +253,7 @@ function renderResults() {
   return `<div class="card">
     <div class="r-tag">🎉 Megvan a tökéletes játék!</div>
     <h2 class="r-title">Ezeket ajánljuk neked:</h2>
-    <p class="r-sub">A legjobb találat elöl van – de mindkettő megér egy próbát!</p>
+    <p class="r-sub">A legjobb találat elől van – de mindkettő megér egy próbát!</p>
     <div class="gg">
       ${gc(pg,true)}
       ${gc(sg,false)}
@@ -260,7 +275,7 @@ function gc(g, primary) {
       <span class="chip">⏱ ${g.t}</span>
     </div>
     <a href="${g.url}" target="_blank" rel="noopener" class="gl ${primary?'pa':'sa'}">
-      Megnézem a Piatniknál →
+      Megnézem →
     </a>
   </div>`;
 }
