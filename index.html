@@ -55,13 +55,9 @@
 
 /* === Mobil fullscreen kvíz === */
 @media (max-width: 600px) {
-  .pjv-wrap {
-    padding: 14px 16px 6px;
-  }
-  .pjv-wrap h1 { font-size: 22px; }
-  .pjv-intro { font-size: 14px; }
-  .pjv-meta { margin-bottom: 12px; }
-  .pjv-footer { padding-bottom: 16px; }
+  /* Bevezető szöveg elrejtése mobilon, mert a kvíz saját start képernyője ugyanezt mutatja */
+  .pjv-wrap.pjv-top { display: none; }
+  .pjv-footer { padding: 16px 16px 24px; font-size: 13px; }
 }
 
 /* === Kvíz wrapper === */
@@ -77,19 +73,41 @@
     padding: 0;
   }
   .pjv-quiz-outer .wrap {
-    max-width: 100%;
+    max-width: 100% !important;
+    padding: 0;
   }
+  /* Kártya eltüntetés — széltől szélig */
   .pjv-quiz-outer .card {
-    border-radius: 12px;
-    margin: 0 4px;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+    padding: 24px 20px;
+    border: none;
   }
-  .pjv-quiz-outer .s-title { font-size: 20px; }
-  .pjv-quiz-outer .s-desc { font-size: 13px; }
-  .pjv-quiz-outer .btn { font-size: 15px; padding: 14px; }
-  .pjv-quiz-outer .opt { font-size: 14px; padding: 14px 16px; }
-  .pjv-quiz-outer .r-title { font-size: 18px; }
-  .pjv-quiz-outer .gc { padding: 14px; }
-  .pjv-quiz-outer .gl { padding: 10px 12px; font-size: 12px; }
+  /* Nagyobb, tapintásbarát gombok */
+  .pjv-quiz-outer .btn {
+    font-size: 17px;
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .pjv-quiz-outer .opt {
+    font-size: 15px;
+    padding: 16px 18px;
+    border-radius: 14px;
+  }
+  /* Start képernyő */
+  .pjv-quiz-outer .s-title { font-size: 22px; }
+  .pjv-quiz-outer .s-desc { font-size: 14px; line-height: 1.6; }
+  /* Eredmény képernyő */
+  .pjv-quiz-outer .r-title { font-size: 20px; }
+  .pjv-quiz-outer .gg { gap: 12px; }
+  .pjv-quiz-outer .gc { padding: 16px; border-radius: 14px; }
+  .pjv-quiz-outer .gn { font-size: 16px; }
+  .pjv-quiz-outer .gd { font-size: 12px; }
+  .pjv-quiz-outer .gl { padding: 12px 14px; font-size: 14px; border-radius: 10px; }
+  .pjv-quiz-outer .btn-again { font-size: 14px; padding: 12px 24px; }
+  /* Haladásjelző pontok */
+  .pjv-quiz-outer .dots { padding: 14px 0; }
 }
 
 /* === Kvíz stílusok === */
@@ -189,7 +207,7 @@
 </style>
 
 <!-- Bevezető szöveg -->
-<div class="pjv-wrap">
+<div class="pjv-wrap pjv-top">
   <h1>Melyik társas <span>a befutó?</span></h1>
   <p class="pjv-intro">
     Válaszolj 5 gyors kérdésre, és ajánlunk két társasjátékot, ami passzol a csapatodhoz, a hangulathoz és a rendelkezésre álló időhöz.
@@ -247,18 +265,33 @@ function getResult(a) {
   const pRange = {kis:[2,2], kozepes:[3,4], nagy:[5,6]}[q2];
   const pMin = pRange[0], pMax = pRange[1];
 
+  // Kizárt játékok ketten (nem elég jók 2 fővel)
+  const noWith2 = ['meisterMakatsu','quickStop','elixirus'];
+  // Kizárt játékok család/barát ágon (csak gyereknek valók)
+  const kidsOnly = ['frogSplash','krokoLoko','myFirstActivity','memoett'];
+
   function fits(id) {
     const g = G[id];
-    return g && g.min <= pMax && g.max >= pMin;
+    if (!g) return false;
+    if (g.min > pMax || g.max < pMin) return false;
+    if (q2==='kis' && noWith2.includes(id)) return false;
+    if ((q1==='csald' || q1==='barat') && kidsOnly.includes(id)) return false;
+    return true;
   }
 
   const swap = {
-    myFirstActivity: 'frogSplash',
+    myFirstActivity: 'papayaBoats',
     theCrew:         'clips',
-    theGang:         'quickStop',
+    theGang:         'xoxo',
     wizard:          'vigyazz6',
-    aranyasok:       'meisterMakatsu',
+    aranyasok:       'vigyazz6',
     nomad:           'hiddenStones',
+    meisterMakatsu:  'vigyazz6',
+    quickStop:       'halliGalli',
+    elixirus:        'clips',
+    frogSplash:      'halliGalli',
+    krokoLoko:       'papayaBoats',
+    memoett:         'papayaBoats',
   };
 
   function fix(ids) {
@@ -285,7 +318,7 @@ function getResult(a) {
       else if (q5==='kozepes') result = ['papayaBoats','pickAChicken'];
       else                     result = ['xoxo','hiddenStones'];
     } else {
-      if (q5==='gyors')        result = ['halliGalli','quickStop'];
+      if (q5==='gyors')        result = ['halliGalli','fourMation'];
       else if (q5==='kozepes') result = ['clips','papayaBoats'];
       else                     result = ['xoxo','hiddenStones'];
     }
@@ -294,12 +327,12 @@ function getResult(a) {
   // CSALÁDDAL
   else if (q1==='csald') {
     if (q4==='hangos') {
-      if (q5==='gyors')        result = ['halliGalli','frogSplash'];
-      else if (q5==='kozepes') result = ['meisterMakatsu','papayaBoats'];
+      if (q5==='gyors')        result = ['halliGalli','papayaBoats'];
+      else if (q5==='kozepes') result = ['vigyazz6','papayaBoats'];
       else                     result = ['aranyasok','vigyazz6'];
     } else if (q4==='kozepes') {
-      if (q5==='gyors')        result = ['quickStop','halliGalli'];
-      else if (q5==='kozepes') result = ['papayaBoats','hiddenStones'];
+      if (q5==='gyors')        result = ['halliGalli','papayaBoats'];
+      else if (q5==='kozepes') result = ['hiddenStones','xoxo'];
       else                     result = ['clips','xoxo'];
     } else {
       if (q5==='gyors')        result = ['theCrew','xoxo'];
@@ -311,7 +344,7 @@ function getResult(a) {
   // BARÁTOKKAL
   else if (q1==='barat') {
     if (q4==='hangos') {
-      if (q5==='gyors')        result = ['halliGalli','quickStop'];
+      if (q5==='gyors')        result = ['halliGalli','vigyazz6'];
       else if (q5==='kozepes') result = ['vigyazz6','meisterMakatsu'];
       else                     result = ['aranyasok','vigyazz6'];
     } else if (q4==='kozepes') {
@@ -355,7 +388,7 @@ function render() {
 function renderStart() {
   return `<div class="card">
     <span class="s-emoji">🎲</span>
-    <h1 class="s-title">Melyik társasjáték illik hozzád?</h1>
+    <h1 class="s-title">Melyik társas a befutó?</h1>
     <p class="s-desc">5 gyors kérdés, és megtaláljuk számodra a tökéletes játékot, legyen szó gyerekekkel töltött időről, családi játékról, vagy társasjáték estről a barátaiddal.</p>
     <button class="btn-go" onclick="startQuiz()">Kezdjük el! →</button>
     <p class="s-note">5 kérdés · ~1 perc</p>
